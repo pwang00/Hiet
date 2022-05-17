@@ -14,7 +14,7 @@ To run Hiet, run `stack run -- p <path_to_image> -c <codel_size> -s`. To get the
 
 # Testing
 
-Recall that `Tests.hs` 
+`Tests.hs` consists of QuickCheck properties for Piet commands and programs. 
 
 # Examples + What to Expect
 
@@ -78,8 +78,6 @@ stack run -- -p images/piet_pi.png -s
 =====================Final State=====================
 State {_stack = Stack [], _dp = DP {_dpdir = DPRight}, _cc = CC {_ccdir = CCRight}, _pos = (58,137), _cb = 1, _rctr = 8, _inbuf = [], _outbuf = []}
 ```
-
-
 
 Note: ghci disables buffering by default, so I had to add a `hFlush stdout` after every `putStr` to ensure consistent behavior between `stack run` and `ghci`.  However, this causes some weird behavior with printing sometimes.
 

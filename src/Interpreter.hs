@@ -200,6 +200,10 @@ step prog@(Prog {_grid = grid, _cs = cs}) state@(State {_rctr = rctr,
                                 (Res newState res) = execInstr state {_cb = length block} instr in 
                                 Res newState {_pos = nextBlockEntry, _rctr = 0} res
 
+
+-- We do IO by pushing to an input buffer and reading from an output buffer
+-- when receiving an IO action (CharInRequest .. IntOutRequest).  Execution
+-- otherwise proceeds normally.
 interp :: PietProgram -> PietResult -> IO (ProgramState)
 interp prog (Res finalState EndProg) = return finalState
 interp prog (Res state@(State {_inbuf = ib, _outbuf = ob}) action)

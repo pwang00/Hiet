@@ -227,6 +227,15 @@ prop_CheckTermination prog input =
   let transitions = stepN prog initialResult 30 input in
     all (\(Res st _) -> _rctr st <= 8) transitions || (length transitions) == 30
 
+-- An invariant of every Piet Program under this interpreter design is that the input and output buffers should 
+-- never exceed length 1, since every time a value is pushed into either of these it is either
+-- flushed from the input buffer and pushed onto the stack, or flushed from the output buffer
+-- into stdout.
+prop_CheckInOutBufs :: PietProgram -> Int -> Bool
+prop_CheckInOutBufs prog input = 
+  let transitions = stepN prog initialResult 30 input in
+    all (\(Res st _) -> length (_inbuf st) <= 1 && length (_outbuf st) <= 1) transitions
+
 --Generates a sequence of states during program execution
 --Similar to interp but we discard IO since we can simulate it 
 --By having quickCheck generate a random number and pushing it to the stack
