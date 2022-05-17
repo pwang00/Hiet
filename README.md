@@ -14,7 +14,7 @@ To run Hiet, run `stack run -- p <path_to_image> -c <codel_size> -s`. To get the
 
 # Testing
 
-`test/Tests.hs` consists of QuickCheck properties for Piet commands and programs.  You can `stack ghci Tests.hs` and `runTests` to run all of the tests.
+`test/Tests.hs` consists of QuickCheck properties for Piet commands and programs.  You can `stack ghci Tests.hs` and `runTests` to run all of the tests.  Some properties cause test cases to be discarded but everything should pass.  Tests the functionality of Piet commands minus essential duplicates (CharIn, CharOut, IntIn, IntOut), in which case just one is tested.  Also tests some invariants of Piet programs, e.g. the retries counter always is less than 8 (i.e. termination conditions are executed correctly), the program position never exceeds the grid size, and the input / output buffers never have more than one element in them.
 
 # Examples + What to Expect
 
