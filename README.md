@@ -86,3 +86,8 @@ Note: ghci disables buffering by default, so I had to add a `hFlush stdout` afte
 If you are any good at Haskell, you may be wondering: "Why didn't you do it this way?" where "it" could refer to using constructs like the `State` monad or `StateT` monad transformer instead of explicitly modifying and passing around state via the ugly `state@{_field = newVal}` syntax.
 
 Truth be told, I'm not any good at Haskell, and you're probably right.  I also wanted to do the above but I was pressed on time and ended up spending a lot of it debugging my interpreter, which would fail on some images. Also, unfortunately deadlines exist, so I chose to submit a uglier looking working implementation over a nicer looking broken one.  I will, however, refactor this code once the semester is over just for sake of completeness.  
+
+
+# Display on class webpage?
+
+No
