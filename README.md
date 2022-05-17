@@ -10,7 +10,7 @@ Hiet's core logic consists of three modules, which are in `src/`: the interprete
 
 To build Hiet, run `stack build`
 
-To run Hiet, run `stack run -- p <path_to_image> -c <codel_size> -s`. To get the help menu run `stack run -- -h`.  The codel size is 1 by default, and the `-c` flag can be omitted.  Supplying the `-s` flag tells the interpreter to print the final program state after termination.
+To run Hiet, run `stack run -- p <path_to_image> -c <codel_size> -s`. To get the help menu run `stack run -- -h`.  The codel size is 1 by default, but may be overridden via the `-c` flag.  Supplying the `-s` flag tells the interpreter to print the final program state after termination.
 
 # Testing
 
