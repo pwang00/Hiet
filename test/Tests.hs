@@ -15,7 +15,6 @@ import Interpreter
 import Test.QuickCheck
 import Test.QuickCheck.Property (Prop)
 import Data.Vector ((!), (!?))
-import Debug.Trace
 
 cmdTable :: Vector PietInstr
 cmdTable = Vec.fromList $ [Nop, Add, Div, Grt, Dup, CharIn, 
@@ -152,7 +151,7 @@ prop_SwitchCC cc@(CC dir) n = switch cc n == switch cc (n `mod` 2)
 
 
 -- Checking that binary arithmetic stack instructions decrease the stack size by 1
--- And correctly flush the 
+-- And correctly flush the input buffer onto the stack.
 prop_BinaryStackInstrs :: ProgramState -> PietInstr -> Property
 prop_BinaryStackInstrs state@(State{_stack = Stack stk, _inbuf = ib}) instr = 
   elem instr arithmeticOps && (length stk) > 1 ==> 
@@ -203,9 +202,42 @@ prop_Pop state@(State{_stack = Stack stk, _inbuf = ib, _cb = cb}) =
         stack@(Stack stk') = _stack state' in
   (length stk) == 0 && (length stk' == 0) || (length stk' == length stk - 1)
 
+-- Property for pointer instr
+prop_Ptr :: ProgramState -> Property
+prop_Ptr state@(State{_stack = Stack stk, _inbuf = ib, _dp = dp}) = 
+  ib == [] && (length stk) > 0 ==> 
+    let (Res state' action) = execInstr state Ptr
+        (x:xs) = stk
+        dp' = _dp state'
+        stack@(Stack stk') = _stack state' in
+    (length stk') == (length stk - 1) && dp' == rotate dp x
+
+-- Property for switch instr
+prop_Swi :: ProgramState -> Property
+prop_Swi state@(State{_stack = Stack stk, _inbuf = ib, _cc = cc}) = 
+  ib == [] && (length stk) > 0 ==> 
+    let (Res state' action) = execInstr state Swi
+        (x:xs) = stk
+        cc' = _cc state'
+        stack@(Stack stk') = _stack state' in
+    (length stk') == (length stk - 1) && cc' == switch cc x
+
+-- Testing that CharIn pushes to the in buffer stack and clears our input buffer
+prop_Input :: Int -> ProgramState -> Property
+prop_Input input state@(State{_stack = Stack stk, _inbuf = ib}) =
+  (length stk) > 0 && ib == [] ==> 
+    let (Res state' action) = execInstr state{_inbuf = [input]} CharIn
+        stack@(Stack stk') = _stack state' 
+        (x:xs) = stk'
+        ib' = _inbuf state'
+        ob' = _outbuf state' in
+    
+  (length stk') == (length stk + 1) && x == input && ib' == []
+
 -- Testing that CharOut pops from the stack and moves it to our out buffer
+-- IntOut does the exact same thing so there's no reason to write an additional property for it
 prop_Output :: ProgramState -> Property
-prop_Output state@(State{_stack = Stack stk, _inbuf = ib, _outbuf = ob, _cb = cb}) =
+prop_Output state@(State{_stack = Stack stk, _inbuf = ib, _outbuf = ob}) =
   (length stk) > 0 && ib == [] ==> 
     let (Res state' action) = execInstr state CharOut
         (x:xs) = stk

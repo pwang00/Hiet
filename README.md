@@ -14,7 +14,7 @@ To run Hiet, run `stack run -- p <path_to_image> -c <codel_size> -s`. To get the
 
 # Testing
 
-`Tests.hs` consists of QuickCheck properties for Piet commands and programs.  You can `stack ghci Tests.hs` and `runTests` to run all of the tests.
+`test/Tests.hs` consists of QuickCheck properties for Piet commands and programs.  You can `stack ghci Tests.hs` and `runTests` to run all of the tests.
 
 # Examples + What to Expect
 
