@@ -1,0 +1,6 @@
+Plan for Piet interpreter:
+
+Week 1 (Apr 18 - 25)
+
+-Get image processing libraries set up and tested
+-Figure out how to use GUI libraries
