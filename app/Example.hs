@@ -7,7 +7,7 @@ import Codec.Picture
 import Data.Vector ((!), (!?))
 
 path :: String
-path = "/home/philip2000/Documents/CMSC488B/final-project/piet-interpreter/images/fizzbuzz.png"
+path = "/home/philip2000/Documents/CMSC488B/final-project/piet-interpreter/images/adder1.png"
 
 example :: IO ()
 example = do
@@ -17,6 +17,3 @@ example = do
     (Right img) -> do
       finalState <- interp img (Res initialState Continue)
       return ()
-
-
-    

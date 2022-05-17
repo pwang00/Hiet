@@ -10,7 +10,7 @@ import Data.Function (on)
 import Data.List
 import Data.Monoid
 import Data.Foldable
-import Debug.Trace
+import System.IO
 
 -- Rotates direction pointer 
 rotate :: DirectionPtr -> Int -> DirectionPtr
@@ -205,24 +205,23 @@ interp prog (Res finalState EndProg) = return finalState
 interp prog (Res state@(State {_inbuf = ib, _outbuf = ob}) action)
   | action == CharInRequest = do
       putStr "Input Char: "
+      hFlush stdout
       x <- getChar
       interp prog (step prog state{_inbuf = [(ord x)]})
   | action == IntInRequest = do
       putStr "Input Int: "
+      hFlush stdout
       x <- getLine
       interp prog (step prog state{_inbuf = [(read x) :: Int]})
   | action == CharOutRequest = case ob of 
       [x] -> do
         putChar $ chr x
         interp prog (step prog state{_outbuf = []})
-      _ -> do
-        interp prog (step prog state)
+      _ -> interp prog (step prog state)
   | action == IntOutRequest = case ob of 
       [x] -> do
         putStr $ show x
         interp prog (step prog state{_outbuf = []})
-      _ -> do
-        putStrLn $ "Buffer: " ++ show ob
-        interp prog (step prog state)
+      _ -> interp prog (step prog state)
   | otherwise = interp prog (step prog state)
       

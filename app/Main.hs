@@ -47,7 +47,7 @@ runProgram (Config path showfs cs) = do
     (Right img) -> do
       finalState <- Interpreter.interp img (Res initialState Continue)
       case showfs of
-        False -> return ()
+        False -> putStrLn ""
         True -> do 
           putStrLn "=====================Final State====================="
           putStrLn $ show finalState
