@@ -19,17 +19,18 @@ To run Hiet, run `stack run -- p <path_to_image> -c <codel_size> -s`. To get the
 # Examples + What to Expect
 
 There's a few programs in the `images` directory:
-    * Hello world: `hw1.gif` (codel size 11)
-    * Hello world 2: `hw-small.gif` (codel size 1)
-    * Factorial: `fac.png` (codel size 1)
-    * Adder: `adder1.png` (codel size 1)
-    * Print out digits of Pi: `piet_pi.png` (codel size 1)
-    * Euclidean algorithm: `euclid1.png` (codel size 1)
-    * FizzBuzz: `fizzbuzz.png` (codel size 1)
+* Hello world: `hw1.gif` (codel size 11)
+* Hello world 2: `hw-small.gif` (codel size 1)
+* Factorial: `fac.png` (codel size 1)
+* Adder: `adder1.png` (codel size 1)
+* Print out digits of Pi: `piet_pi.png` (codel size 1)
+* Euclidean algorithm: `euclid1.png` (codel size 1)
+* FizzBuzz: `fizzbuzz.png` (codel size 1)
 
 Some of their outputs are below:
 
-```stack run -- -p images/fizzbuzz.png 
+```
+$ stack run -- -p images/fizzbuzz.png 
 1
 2
 Fizz
@@ -49,31 +50,31 @@ FizzBuzz
 ```
 
 ```
-stack run -- -p images/fac.png 
+$ stack run -- -p images/fac.png 
 Input Int: 7
 5040
 ```
 
 ```
-stack run -- -p images/adder1.png 
+$ stack run -- -p images/adder1.png 
 nInput Int: 5
 nInput Int: 5
 5+5=10
 ```
 
 ```
-stack run -- -p images/piet_pi.png 
+$ stack run -- -p images/piet_pi.png 
 31405
 ```
 
 ```
-stack run -- -p images/hw1.gif -c 11
+$ stack run -- -p images/hw1.gif -c 11
 Hello, world!
 ```
 
 With final state shown:
 ```
-stack run -- -p images/piet_pi.png -s
+$ stack run -- -p images/piet_pi.png -s
 31405
 =====================Final State=====================
 State {_stack = Stack [], _dp = DP {_dpdir = DPRight}, _cc = CC {_ccdir = CCRight}, _pos = (58,137), _cb = 1, _rctr = 8, _inbuf = [], _outbuf = []}
