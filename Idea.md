@@ -23,8 +23,7 @@ Notes:
 
 Like other languages, we can model Piet control flow like a directed graph: each vertex represents a color block and each edge represents a transition between color blocks, which encodes the command to be executed.  Each color block has at most four adjacencies; we can randomly generate a label name for each vertex and store it in a record like so:
 
-```
-haskell
+```haskell
 data Vertex = Vertex {
     name :: String
     positions :: [Position]
