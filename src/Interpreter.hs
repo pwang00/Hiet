@@ -127,7 +127,7 @@ execInstr state@(State {_inbuf = ib, _outbuf = ob}) instr =
       -- Unary arithmetic stack ops
       op1 :: Stack -> (Int -> Int) -> ProgramState -> ProgramState
       op1 = \s op st -> case s of 
-                          Stack (x:xs) -> state {_stack = Stack $ (op x) : xs}
+                          Stack (x:xs) -> st {_stack = Stack $ (op x) : xs}
                           _ -> st 
       -- Binary arithmetic stack ops
       op2 :: Stack -> (Int -> Int -> Int) -> ProgramState -> ProgramState
