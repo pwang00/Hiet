@@ -25,9 +25,9 @@ Like other languages, we can model Piet control flow like a directed graph: each
 
 ```haskell
 data Vertex = Vertex {
-    name :: String
-    positions :: [Position]
-    adjacencies :: [Vertex]
+    name :: String,
+    positions :: [Position],
+    adjacencies :: [Vertex],
 }
 ```
 
