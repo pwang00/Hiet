@@ -7,6 +7,7 @@ import Control.Monad
 import qualified Data.Vector as Vec
 import Codec.Picture.Types
 import Control.Lens
+import Control.Monad.State
 import Data.Vector ((!))
 
 type Vector = Vec.Vector
@@ -46,6 +47,8 @@ data PietProgram = Prog {
 
 makeLenses ''PietProgram
 makeLenses ''ProgramState
+
+type PietMT = StateT PietResult IO
 
 data Action = Continue | CharInRequest | IntInRequest | CharOutRequest 
               | IntOutRequest | EndProg deriving (Eq, Show)
