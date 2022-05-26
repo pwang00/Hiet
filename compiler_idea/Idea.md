@@ -51,6 +51,10 @@ Thus, we can assign some label name to each `v_i`, and output code to jump to a 
 label_v2:
   sub rdx, r9, r8
   mov r12, 0
+
+  ; Casework on cc
+  ; 0 for left, 1 for right
+
   cmp rbx, 0
   je label_v2_dp
   cmp rbx, 1
@@ -61,8 +65,10 @@ label_v2_invalid:
   jmp label_v2
 
 label_v2_dp:
+  ; Casework on dp
+  ; v_2 has two adjacencies: one to the left and one below.
   cmp rax, 1
-  jmp label_v2
+  jmp label_v1
   cmp rax, 2
   jmp label_v4
 ```
