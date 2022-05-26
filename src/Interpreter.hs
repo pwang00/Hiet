@@ -196,7 +196,7 @@ step prog@(Prog {_grid = grid, _cs = cs}) state@(State {_rctr = rctr,
     case colorAtPos of
         Nothing -> Res (recalculateEntry state block) Continue
         Just Black -> Res (recalculateEntry state block) Continue
-        (Just nextCodel) -> let instr = (decodeInstr currCodel nextCodel)
+        Just nextCodel -> let instr = decodeInstr currCodel nextCodel
                                 (Res newState res) = execInstr state {_cb = length block} instr in 
                                 Res newState {_pos = nextBlockEntry, _rctr = 0} res
 
