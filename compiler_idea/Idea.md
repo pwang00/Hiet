@@ -45,7 +45,7 @@ So
 * `v_3` is bordered by `v_1` and `v_4`
 * `v_4` is bordered by `v_2` and `v_3`.  
 
-Thus, we can assign some label name to each `v_i`, and output code to jump to a certain adjacency of v_i depending on the values of dp / cc, or back to itself if none of the values are valid.  For example, for `v_2`, we could output the following asm: 
+Thus, we can assign some label name to each `v_i`, and output code to jump to a certain adjacency of `v_i` depending on the values of dp / cc, or back to itself if none of the values are valid.  For example, for `v_2`, we could output the following asm: 
 
 ```
 label_v2:
