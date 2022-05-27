@@ -39,6 +39,7 @@ library
     , base >=4.7 && <5
     , containers
     , lens
+    , mtl
     , optparse-applicative
     , random
     , transformers
@@ -59,6 +60,7 @@ executable piet-interpreter-exe
     , base >=4.7 && <5
     , containers
     , lens
+    , mtl
     , optparse-applicative
     , piet-interpreter
     , random
@@ -81,6 +83,7 @@ test-suite piet-interpreter-test
     , base >=4.7 && <5
     , containers
     , lens
+    , mtl
     , optparse-applicative
     , piet-interpreter
     , random

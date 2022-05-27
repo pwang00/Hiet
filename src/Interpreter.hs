@@ -183,9 +183,14 @@ recalculateEntry state@(State {_dp = dp, _cc = cc, _rctr = rctr}) block =
 -- Terminates the program if 8 attempts are made to exit the color block without success
 step :: PietProgram -> ProgramState -> PietResult
 step prog state@(State {_rctr = 8}) = (Res state EndProg)
-step prog@(Prog {_grid = grid, _cs = cs}) state@(State {_rctr = rctr, 
-                                                  _pos = pos@(r, c), _dp = dp, _cc = cc}) =
-    let currCodel = grid ! r ! c
+step prog state =
+    let grid = _grid prog
+        cs = _cs prog
+        rctr = _rctr state
+        pos@(r, c) = _pos state
+        dp = _dp state
+        cc = _cc state
+        currCodel = grid ! r ! c
         block = computeBlock prog pos currCodel
         furthestCodelInBlock = codelFromPositions block dp cc
         nextBlockEntry@(r2, c2) = moveInDir prog furthestCodelInBlock dp
@@ -197,8 +202,8 @@ step prog@(Prog {_grid = grid, _cs = cs}) state@(State {_rctr = rctr,
         Nothing -> Res (recalculateEntry state block) Continue
         Just Black -> Res (recalculateEntry state block) Continue
         Just nextCodel -> let instr = decodeInstr currCodel nextCodel
-                                (Res newState res) = execInstr state {_cb = length block} instr in 
-                                Res newState {_pos = nextBlockEntry, _rctr = 0} res
+                              (Res newState res) = execInstr state {_cb = length block} instr in 
+                              Res newState {_pos = nextBlockEntry, _rctr = 0} res
 
 
 -- We do IO by pushing to an input buffer and reading from an output buffer

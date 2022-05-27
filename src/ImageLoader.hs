@@ -9,7 +9,7 @@ import PietTypes
 imgToColorGrid :: Image PixelRGB8 -> ImageGrid
 imgToColorGrid img@(Image w h _) = Vec.fromList [
   Vec.fromList [pixelToColor $ pixelAt img x y | x <- [0..w-1]] | y <- [0..h-1]
-]
+  ]
 
 configureProgram :: ImageGrid -> CodelSize -> PietProgram
 configureProgram img cs | Vec.length img < 1 = error "Image is empty"

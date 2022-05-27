@@ -29,6 +29,7 @@ dependencies:
 - random
 - transformers
 - optparse-applicative
+- mtl
 
 library:
   source-dirs: src

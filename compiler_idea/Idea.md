@@ -23,7 +23,7 @@ Notes:
 
 Like other languages, we can model Piet control flow like a directed graph: each vertex represents a color block and each edge represents a transition between color blocks, which encodes the command to be executed.  At compile-time we can partition our image into their component blocks, each of which has at most 4 adjacencies.  To determine the adjacencies of a color block, we can perform a flood-fill / depth-first search within the color block, and find the boundaries via casework on the direction pointer / codel chooser states.
 
-We can then randomly generate a label name for each vertex and store it, along with the vertex's color in a record like so:
+We can then randomly generate a label name for each vertex and store it, along with the vertex's color, in a record like so:
 
 ```haskell
 data CBVertex = Vertex {

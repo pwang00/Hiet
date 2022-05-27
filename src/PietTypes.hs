@@ -1,5 +1,6 @@
 -- Simulates Piet's stack and direction pointer
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies #-}
 
 module PietTypes where
 
@@ -36,7 +37,7 @@ data ProgramState = State {
   _rctr :: Int, -- Retries counter: program terminates after 8 unsuccessful attempts
   _inbuf :: [Int], -- We push and pop to these depending on whether IO is done
   _outbuf :: [Int]
-} deriving (Show)
+}
 
 data PietProgram = Prog {
   _grid :: ImageGrid,
@@ -48,12 +49,37 @@ data PietProgram = Prog {
 makeLenses ''PietProgram
 makeLenses ''ProgramState
 
-type PietMT = StateT PietResult IO
+type PietMT = StateT PietResult IO (PietResult)
 
 data Action = Continue | CharInRequest | IntInRequest | CharOutRequest 
               | IntOutRequest | EndProg deriving (Eq, Show)
 
 data PietResult = Res ProgramState Action deriving (Show)
+
+data PietInstr = Nop | Push | Pop | Add | Sub | Mul 
+                | Div | Mod | Not | Grt | Ptr | Swi
+                | Dup | Roll | IntIn | IntOut | CharIn | CharOut deriving (Eq, Show)
+
+instance Show ProgramState where
+  show State {
+    _stack = s,
+    _dp = dp,
+    _cc = cc,
+    _pos = pos,
+    _cb = cb,
+    _rctr = rctr,
+    _inbuf = ib,
+    _outbuf = ob
+  } = "State {\n" 
+        ++ "  _stack = " ++ show s ++ ",\n"
+        ++ "  _dp = " ++ show dp ++ ",\n"
+        ++ "  _cc = " ++ show cc ++ ",\n"
+        ++ "  _pos = " ++ show pos ++ ",\n"
+        ++ "  _cb = " ++ show cb ++ ",\n"
+        ++ "  _rctr = " ++ show rctr ++ ",\n"
+        ++ "  _inbuf = " ++ show ib ++ ",\n"
+        ++ "  _outbuf = " ++ show ob ++ "\n"
+        ++ "}"
 
 initialState = State {
   _stack = Stack [], 
@@ -65,7 +91,3 @@ initialState = State {
   _inbuf = [],
   _outbuf = []
 }
-
-data PietInstr = Nop | Push | Pop | Add | Sub | Mul 
-                | Div | Mod | Not | Grt | Ptr | Swi
-                | Dup | Roll | IntIn | IntOut | CharIn | CharOut deriving (Eq, Show)
