@@ -215,7 +215,6 @@ step prog state =
 interp :: PietProgram -> PietMT
 interp prog = do
   res@(Res state@(State{_inbuf = ib, _outbuf = ob}) action) <- get
-  
   case action of 
     EndProg -> return state
     CharInRequest -> do
