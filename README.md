@@ -77,7 +77,17 @@ With final state shown:
 $ stack run -- -p images/piet_pi.png -s
 31405
 =====================Final State=====================
-State {_stack = Stack [], _dp = DP {_dpdir = DPRight}, _cc = CC {_ccdir = CCRight}, _pos = (58,137), _cb = 1, _rctr = 8, _inbuf = [], _outbuf = []}
+State {
+  _stack = Stack [],
+  _dp = DP {_dpdir = DPRight},
+  _cc = CC {_ccdir = CCRight},
+  _pos = (58,137),
+  _cb = 1,
+  _rctr = 8,
+  _inbuf = [],
+  _outbuf = []
+}
+
 ```
 
 Note: ghci disables buffering by default, so I had to add a `hFlush stdout` after every `putStr` to ensure consistent behavior between `stack run` and `ghci`.  However, this causes some weird behavior with printing sometimes.
