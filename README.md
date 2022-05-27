@@ -77,18 +77,21 @@ With final state shown:
 $ stack run -- -p images/piet_pi.png -s
 31405
 =====================Final State=====================
-State {_stack = Stack [], _dp = DP {_dpdir = DPRight}, _cc = CC {_ccdir = CCRight}, _pos = (58,137), _cb = 1, _rctr = 8, _inbuf = [], _outbuf = []}
+State {
+  _stack = Stack [],
+  _dp = DP {_dpdir = DPRight},
+  _cc = CC {_ccdir = CCRight},
+  _pos = (58,137),
+  _cb = 1,
+  _rctr = 8,
+  _inbuf = [],
+  _outbuf = []
+}
+
 ```
 
 Note: ghci disables buffering by default, so I had to add a `hFlush stdout` after every `putStr` to ensure consistent behavior between `stack run` and `ghci`.  However, this causes some weird behavior with printing sometimes.
 
 # Disclaimer
 
-If you are any good at Haskell, you may be wondering: "Why didn't you do it this way?" where "it" could refer to using constructs like the `State` monad or `StateT` monad transformer instead of explicitly modifying and passing around state via the ugly `state@{_field = newVal}` syntax.
-
-Truth be told, I'm not any good at Haskell, and you're probably right.  I also wanted to do the above but I was pressed on time and ended up spending a lot of it debugging my interpreter, which would fail on some images. Also, unfortunately deadlines exist, so I chose to submit a uglier looking working implementation over a nicer looking broken one.  I will, however, refactor this code once the semester is over just for sake of completeness.  
-
-
-# Display on class webpage?
-
-Not really proud of this one so no
+Uses StateT but is still ugly :/
