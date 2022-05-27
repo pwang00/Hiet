@@ -1,5 +1,7 @@
 module Example where
-
+  
+import Control.Monad
+import Control.Monad.Trans.State
 import Interpreter
 import PietTypes
 import ImageLoader
@@ -15,5 +17,5 @@ example = do
   case res of
     (Left err) -> return ()
     (Right img) -> do
-      finalState <- interp img (Res initialState Continue)
+      finalState <- evalStateT (interp img) (Res initialState Continue)
       return ()

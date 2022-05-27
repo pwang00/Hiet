@@ -1,6 +1,9 @@
 module Interpreter where
 
 import Control.Lens
+import Control.Monad
+import Control.Monad.Trans.State
+import Control.Monad.IO.Class
 import PietTypes
 import ImageLoader
 import Codec.Picture
@@ -209,28 +212,30 @@ step prog state =
 -- We do IO by pushing to an input buffer and reading from an output buffer
 -- when receiving an IO action (CharInRequest .. IntOutRequest).  Execution
 -- otherwise proceeds normally.
-interp :: PietProgram -> PietResult -> IO (ProgramState)
-interp prog (Res finalState EndProg) = return finalState
-interp prog (Res state@(State {_inbuf = ib, _outbuf = ob}) action)
-  | action == CharInRequest = do
-      putStr "Input Char: "
-      hFlush stdout
-      x <- getChar
-      interp prog (step prog state{_inbuf = [(ord x)]})
-  | action == IntInRequest = do
-      putStr "Input Int: "
-      hFlush stdout
-      x <- getLine
-      interp prog (step prog state{_inbuf = [(read x) :: Int]})
-  | action == CharOutRequest = case ob of 
+interp :: PietProgram -> PietMT
+interp prog = do
+  res@(Res state@(State{_inbuf = ib, _outbuf = ob}) action) <- get
+  
+  case action of 
+    EndProg -> return state
+    CharInRequest -> do
+      liftIO $ putStr "Input Char: "
+      liftIO $ hFlush stdout
+      x <- liftIO getChar
+      put (step prog state{_inbuf = [(ord x)]}) >> interp prog
+    IntInRequest -> do
+      liftIO $ putStr "Input Char: "
+      liftIO $ hFlush stdout
+      x <- liftIO getLine
+      put (step prog state{_inbuf = [(read x) :: Int]}) >> interp prog
+    CharOutRequest -> case ob of
       [x] -> do
-        putChar $ chr x
-        interp prog (step prog state{_outbuf = []})
-      _ -> interp prog (step prog state)
-  | action == IntOutRequest = case ob of 
+        liftIO $ putChar $ chr x
+        put (step prog state{_outbuf = []}) >> interp prog
+      _ -> interp prog
+    IntOutRequest -> case ob of
       [x] -> do
-        putStr $ show x
-        interp prog (step prog state{_outbuf = []})
-      _ -> interp prog (step prog state)
-  | otherwise = interp prog (step prog state)
-      
+        liftIO $ putStr $ show x
+        put (step prog state{_outbuf = []}) >> interp prog
+      _ -> interp prog
+    Continue -> put (step prog state) >> interp prog

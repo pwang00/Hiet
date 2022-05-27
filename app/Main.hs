@@ -1,5 +1,7 @@
 module Main where
 
+import Control.Monad
+import Control.Monad.Trans.State
 import PietTypes
 import qualified Interpreter
 import ImageLoader
@@ -45,7 +47,7 @@ runProgram (Config path showfs cs) = do
   case img of 
     (Left err) -> putStrLn $ "An error was encountered: " ++ show err
     (Right img) -> do
-      finalState <- Interpreter.interp img (Res initialState Continue)
+      finalState <- evalStateT (Interpreter.interp img) (Res initialState Continue)
       case showfs of
         False -> putStrLn ""
         True -> do 

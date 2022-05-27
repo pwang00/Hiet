@@ -49,7 +49,7 @@ data PietProgram = Prog {
 makeLenses ''PietProgram
 makeLenses ''ProgramState
 
-type PietMT = StateT PietResult IO (PietResult)
+type PietMT = StateT PietResult IO (ProgramState)
 
 data Action = Continue | CharInRequest | IntInRequest | CharOutRequest 
               | IntOutRequest | EndProg deriving (Eq, Show)
